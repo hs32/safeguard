@@ -28,7 +28,7 @@ export default function LoginPage() {
           {/* Back to Home */}
           <Link
             href="/"
-            className="inline-flex items-center text-white/80 hover:text-white text-sm mb-8 transition-colors"
+            className="inline-flex items-center text-white/90 hover:text-white text-sm mb-8 transition-colors"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -36,15 +36,15 @@ export default function LoginPage() {
             Back to Home
           </Link>
 
-          <Card className="bg-black/20 backdrop-blur-sm border-white/10">
+          <Card className="bg-black/80 backdrop-blur-sm border-white/20">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-light text-white">Welcome Back</CardTitle>
-              <CardDescription className="text-white/60">Sign in to access your privacy dashboard</CardDescription>
+              <CardDescription className="text-white/90">Sign in to access your privacy dashboard</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white/80">
+                  <Label htmlFor="email" className="text-white">
                     Email
                   </Label>
                   <Input
@@ -52,13 +52,13 @@ export default function LoginPage() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
+                    className="bg-white/15 border-white/30 text-white placeholder:text-white/80"
                     placeholder="Enter your email"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white/80">
+                  <Label htmlFor="password" className="text-white">
                     Password
                   </Label>
                   <div className="relative">
@@ -67,14 +67,14 @@ export default function LoginPage() {
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="bg-white/5 border-white/20 text-white placeholder:text-white/40 pr-10"
+                      className="bg-white/15 border-white/30 text-white placeholder:text-white/80 pr-10"
                       placeholder="Enter your password"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white/80"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/80 hover:text-white"
                     >
                       {showPassword ? (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,7 +105,7 @@ export default function LoginPage() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <Link href="/forgot-password" className="text-white/60 hover:text-white/80 transition-colors">
+                  <Link href="/forgot-password" className="text-white/80 hover:text-white transition-colors">
                     Forgot password?
                   </Link>
                 </div>
@@ -114,9 +114,9 @@ export default function LoginPage() {
                 </Button>
               </form>
               <div className="mt-6 text-center">
-                <p className="text-white/60 text-sm">
+                <p className="text-white/80 text-sm">
                   Don't have an account?{" "}
-                  <Link href="/register" className="text-white hover:text-white/80 transition-colors">
+                  <Link href="/register" className="text-white hover:text-white/90 transition-colors">
                     Sign up
                   </Link>
                 </p>

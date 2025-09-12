@@ -117,134 +117,127 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
-      <ShaderBackground />
-      <Header />
-
-      <div className="relative z-10 min-h-screen pt-20 pb-12 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Admin Panel</h1>
-            <p className="text-gray-400">Manage users and system settings</p>
-          </div>
-
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">Total Users</CardTitle>
-                <Users className="h-4 w-4 text-blue-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{stats.totalUsers}</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">Active Users</CardTitle>
-                <Activity className="h-4 w-4 text-green-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{stats.activeUsers}</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">Admin Users</CardTitle>
-                <Shield className="h-4 w-4 text-purple-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{stats.adminUsers}</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">Recent Signups</CardTitle>
-                <Settings className="h-4 w-4 text-orange-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{stats.recentSignups}</div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Users Table */}
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <CardHeader>
-              <CardTitle className="text-white">User Management</CardTitle>
-              <CardDescription className="text-gray-400">Manage user accounts and permissions</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-white/20">
-                      <th className="text-left py-3 px-4 text-white font-medium">User</th>
-                      <th className="text-left py-3 px-4 text-white font-medium">Email</th>
-                      <th className="text-left py-3 px-4 text-white font-medium">Role</th>
-                      <th className="text-left py-3 px-4 text-white font-medium">Status</th>
-                      <th className="text-left py-3 px-4 text-white font-medium">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {users.map((user) => (
-                      <tr key={user.id} className="border-b border-white/10">
-                        <td className="py-3 px-4">
-                          <div className="text-white">
-                            <div className="font-medium">
-                              {user.firstName} {user.lastName}
-                            </div>
-                            <div className="text-sm text-gray-400">@{user.username}</div>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4 text-gray-300">{user.email}</td>
-                        <td className="py-3 px-4">
-                          <Badge
-                            variant={user.role === "ADMIN" ? "default" : "secondary"}
-                            className={user.role === "ADMIN" ? "bg-purple-600 text-white" : "bg-gray-600 text-white"}
-                          >
-                            {user.role}
-                          </Badge>
-                        </td>
-                        <td className="py-3 px-4">
-                          <Badge
-                            variant={user.isActive ? "default" : "destructive"}
-                            className={user.isActive ? "bg-green-600 text-white" : "bg-red-600 text-white"}
-                          >
-                            {user.isActive ? "Active" : "Inactive"}
-                          </Badge>
-                        </td>
-                        <td className="py-3 px-4">
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="text-white border-white/20 hover:bg-white/10 bg-transparent"
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="text-red-400 border-red-400/20 hover:bg-red-400/10 bg-transparent"
-                            >
-                              Delete
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+    <div className="space-y-8">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
+        <p className="text-gray-400">Overview of system statistics and recent activity</p>
       </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="bg-white/10 backdrop-blur-md border-white/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-white">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-blue-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">{stats.totalUsers}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/10 backdrop-blur-md border-white/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-white">Active Users</CardTitle>
+            <Activity className="h-4 w-4 text-green-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">{stats.activeUsers}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/10 backdrop-blur-md border-white/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-white">Admin Users</CardTitle>
+            <Shield className="h-4 w-4 text-purple-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">{stats.adminUsers}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/10 backdrop-blur-md border-white/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-white">Recent Signups</CardTitle>
+            <Settings className="h-4 w-4 text-orange-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">{stats.recentSignups}</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Users Table */}
+      <Card className="bg-white/10 backdrop-blur-md border-white/20">
+        <CardHeader>
+          <CardTitle className="text-white">Recent Users</CardTitle>
+          <CardDescription className="text-gray-400">Latest user registrations and activity</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/20">
+                  <th className="text-left py-3 px-4 text-white font-medium">User</th>
+                  <th className="text-left py-3 px-4 text-white font-medium">Email</th>
+                  <th className="text-left py-3 px-4 text-white font-medium">Role</th>
+                  <th className="text-left py-3 px-4 text-white font-medium">Status</th>
+                  <th className="text-left py-3 px-4 text-white font-medium">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user.id} className="border-b border-white/10">
+                    <td className="py-3 px-4">
+                      <div className="text-white">
+                        <div className="font-medium">
+                          {user.firstName} {user.lastName}
+                        </div>
+                        <div className="text-sm text-gray-400">@{user.username}</div>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 text-gray-300">{user.email}</td>
+                    <td className="py-3 px-4">
+                      <Badge
+                        variant={user.role === "ADMIN" ? "default" : "secondary"}
+                        className={user.role === "ADMIN" ? "bg-purple-600 text-white" : "bg-gray-600 text-white"}
+                      >
+                        {user.role}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4">
+                      <Badge
+                        variant={user.isActive ? "default" : "destructive"}
+                        className={user.isActive ? "bg-green-600 text-white" : "bg-red-600 text-white"}
+                      >
+                        {user.isActive ? "Active" : "Inactive"}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-white border-white/20 hover:bg-white/10 bg-transparent"
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-red-400 border-red-400/20 hover:bg-red-400/10 bg-transparent"
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

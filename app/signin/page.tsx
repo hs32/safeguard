@@ -59,10 +59,10 @@ export default function SignInPage() {
     <ShaderBackground>
       <Header />
       <div className="relative z-10 min-h-screen pt-20 pb-12 px-6 flex items-center justify-center">
-        <Card className="w-full max-w-md bg-white/10 backdrop-blur-xl border-white/20">
+        <Card className="w-full max-w-md bg-black/80 backdrop-blur-xl border-white/30">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">Welcome Back</CardTitle>
-            <CardDescription className="text-white/70">Sign in to your SafeGuard account</CardDescription>
+            <CardDescription className="text-white/90">Sign in to your SafeGuard account</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -83,7 +83,7 @@ export default function SignInPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                  className="bg-white/20 border-white/30 text-white placeholder:text-white/80"
                   placeholder="Enter your email"
                 />
               </div>
@@ -99,7 +99,7 @@ export default function SignInPage() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                  className="bg-white/20 border-white/30 text-white placeholder:text-white/80"
                   placeholder="Enter your password"
                 />
               </div>
@@ -110,7 +110,7 @@ export default function SignInPage() {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-white/70">
+              <p className="text-white/90">
                 Don't have an account?{" "}
                 <Link href="/signup" className="text-green-400 hover:text-green-300 font-medium">
                   Sign up
