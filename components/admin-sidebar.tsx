@@ -26,7 +26,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     <>
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-30 lg:flex lg:w-64 lg:flex-col lg:pt-16">
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-black/20 backdrop-blur-md border-r border-white/10 px-6 pb-4">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-black/20 backdrop-blur-md border-r border-white/10 px-6 pb-4 mt-5">
           <div className="flex h-16 shrink-0 items-center">
             <h2 className="text-xl font-semibold text-white">Admin Panel</h2>
           </div>

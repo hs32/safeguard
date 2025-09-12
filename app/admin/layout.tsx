@@ -58,9 +58,11 @@ export default function AdminLayout({
             <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
           )}
 
-          <div className="flex pt-20 lg:pt-24">
+          <div className="flex leading-3">
             {/* Sidebar */}
-            <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+            <div className="lg:mt-6">
+              <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+            </div>
 
             {/* Main content */}
             <main className="flex-1 lg:ml-64">
