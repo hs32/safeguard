@@ -94,14 +94,14 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Users</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Users</h1>
           <p className="text-gray-400">Manage user accounts and permissions</p>
         </div>
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+        <Button className="bg-purple-600 hover:bg-purple-700 text-white w-full sm:w-auto">
           <Plus className="h-4 w-4 mr-2" />
           Add User
         </Button>
@@ -109,7 +109,7 @@ export default function UsersPage() {
 
       {/* Search and Filters */}
       <Card className="bg-white/10 backdrop-blur-md border-white/20">
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -120,7 +120,10 @@ export default function UsersPage() {
                 className="pl-10 bg-white/5 border-white/20 text-white placeholder:text-gray-400"
               />
             </div>
-            <Button variant="outline" className="text-white border-white/20 hover:bg-white/10 bg-transparent">
+            <Button
+              variant="outline"
+              className="text-white border-white/20 hover:bg-white/10 bg-transparent w-full sm:w-auto"
+            >
               <Filter className="h-4 w-4 mr-2" />
               Filters
             </Button>
@@ -135,7 +138,7 @@ export default function UsersPage() {
           <CardDescription className="text-gray-400">Manage user accounts, roles, and permissions</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/20">
@@ -198,6 +201,57 @@ export default function UsersPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div className="lg:hidden space-y-4">
+            {filteredUsers.map((user) => (
+              <Card key={user.id} className="bg-white/5 border-white/10">
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-white truncate">
+                        {user.firstName} {user.lastName}
+                      </div>
+                      <div className="text-sm text-gray-400">@{user.username}</div>
+                      <div className="text-sm text-gray-300 mt-1 truncate">{user.email}</div>
+                      <div className="text-xs text-gray-400 mt-1">
+                        Created: {new Date(user.createdAt).toLocaleDateString()}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 ml-4">
+                      <Badge
+                        variant={user.role === "ADMIN" ? "default" : "secondary"}
+                        className={user.role === "ADMIN" ? "bg-purple-600 text-white" : "bg-gray-600 text-white"}
+                      >
+                        {user.role}
+                      </Badge>
+                      <Badge
+                        variant={user.isActive ? "default" : "destructive"}
+                        className={user.isActive ? "bg-green-600 text-white" : "bg-red-600 text-white"}
+                      >
+                        {user.isActive ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-white border-white/20 hover:bg-white/10 bg-transparent flex-1"
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-red-400 border-red-400/20 hover:bg-red-400/10 bg-transparent flex-1"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </CardContent>
       </Card>

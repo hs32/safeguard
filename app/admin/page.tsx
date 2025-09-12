@@ -120,49 +120,49 @@ export default function AdminPanel() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Dashboard</h1>
         <p className="text-gray-400">Overview of system statistics and recent activity</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="bg-white/10 backdrop-blur-md border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">Total Users</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium text-white">Total Users</CardTitle>
             <Users className="h-4 w-4 text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{stats.totalUsers}</div>
+            <div className="text-xl sm:text-2xl font-bold text-white">{stats.totalUsers}</div>
           </CardContent>
         </Card>
 
         <Card className="bg-white/10 backdrop-blur-md border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">Active Users</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium text-white">Active Users</CardTitle>
             <Activity className="h-4 w-4 text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{stats.activeUsers}</div>
+            <div className="text-xl sm:text-2xl font-bold text-white">{stats.activeUsers}</div>
           </CardContent>
         </Card>
 
         <Card className="bg-white/10 backdrop-blur-md border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">Admin Users</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium text-white">Admin Users</CardTitle>
             <Shield className="h-4 w-4 text-purple-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{stats.adminUsers}</div>
+            <div className="text-xl sm:text-2xl font-bold text-white">{stats.adminUsers}</div>
           </CardContent>
         </Card>
 
         <Card className="bg-white/10 backdrop-blur-md border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">Recent Signups</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium text-white">Recent Signups</CardTitle>
             <Settings className="h-4 w-4 text-orange-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{stats.recentSignups}</div>
+            <div className="text-xl sm:text-2xl font-bold text-white">{stats.recentSignups}</div>
           </CardContent>
         </Card>
       </div>
@@ -174,7 +174,7 @@ export default function AdminPanel() {
           <CardDescription className="text-gray-400">Latest user registrations and activity</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/20">
@@ -235,6 +235,54 @@ export default function AdminPanel() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div className="md:hidden space-y-4">
+            {users.map((user) => (
+              <Card key={user.id} className="bg-white/5 border-white/10">
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <div className="font-medium text-white">
+                        {user.firstName} {user.lastName}
+                      </div>
+                      <div className="text-sm text-gray-400">@{user.username}</div>
+                      <div className="text-sm text-gray-300 mt-1">{user.email}</div>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Badge
+                        variant={user.role === "ADMIN" ? "default" : "secondary"}
+                        className={user.role === "ADMIN" ? "bg-purple-600 text-white" : "bg-gray-600 text-white"}
+                      >
+                        {user.role}
+                      </Badge>
+                      <Badge
+                        variant={user.isActive ? "default" : "destructive"}
+                        className={user.isActive ? "bg-green-600 text-white" : "bg-red-600 text-white"}
+                      >
+                        {user.isActive ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-white border-white/20 hover:bg-white/10 bg-transparent flex-1"
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-red-400 border-red-400/20 hover:bg-red-400/10 bg-transparent flex-1"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </CardContent>
       </Card>
