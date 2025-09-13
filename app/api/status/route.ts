@@ -10,7 +10,7 @@ export async function GET() {
 
     try {
       const backendStart = Date.now()
-      const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/health`, {
+      const backendResponse = await fetch("https://pf-backend-x6xf.onrender.com/health", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export async function GET() {
       responseTime: `${responseTime}ms`,
       backend: {
         status: backendStatus,
-        url: process.env.NEXT_PUBLIC_BACKEND_URL,
+        url: "https://pf-backend-x6xf.onrender.com/health",
         responseTime: `${backendResponseTime}ms`,
       },
       checks: {
