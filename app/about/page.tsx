@@ -11,7 +11,7 @@ export default function AboutPage() {
   return (
     <ShaderBackground>
       <Header />
-      <div className="absolute top-24 right-6 z-10">
+      <div className="absolute top-24 right-6 z-20">
         <Button
           variant="outline"
           size="sm"
