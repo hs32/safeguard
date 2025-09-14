@@ -11,7 +11,7 @@ export default function AboutPage() {
   return (
     <ShaderBackground>
       <Header />
-      <div className="absolute top-24 right-6 z-30">
+      <div className="absolute top-24 right-6 z-10">
         <Button
           variant="outline"
           size="sm"
@@ -26,7 +26,7 @@ export default function AboutPage() {
         </Button>
       </div>
 
-      <div className="relative z-20 min-h-screen pt-20 pb-16 px-6">
+      <div className="relative z-10 min-h-screen pt-20 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-16">
