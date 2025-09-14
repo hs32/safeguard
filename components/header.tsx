@@ -107,15 +107,6 @@ const Header = () => {
         >
           About
         </Link>
-        <Link
-          href="https://safeguard.cronitorstatus.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white/80 hover:text-white text-xs font-light px-3 py-2 rounded-full hover:bg-white/10 transition-all duration-200 border border-green-500/30 bg-green-500/10 flex items-center space-x-1"
-        >
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          <span>Status</span>
-        </Link>
       </nav>
 
       {isAuthenticated ? (
@@ -275,16 +266,6 @@ const Header = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               About
-            </Link>
-            <Link
-              href="https://safeguard.cronitorstatus.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/80 hover:text-white text-sm font-light py-2 transition-all duration-200 flex items-center space-x-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span>System Status</span>
             </Link>
             {isAuthenticated ? (
               <div className="pt-4 border-t border-white/10 space-y-3">

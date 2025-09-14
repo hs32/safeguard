@@ -59,10 +59,10 @@ export default function SignInPage() {
     <ShaderBackground>
       <Header />
       <div className="relative z-10 min-h-screen pt-20 pb-12 px-6 flex items-center justify-center">
-        <Card className="w-full max-w-md bg-white/10 backdrop-blur-xl border-white/20">
+        <Card className="w-full max-w-md bg-black/40 backdrop-blur-xl border-white/20">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">Welcome Back</CardTitle>
-            <CardDescription className="text-white/70">Sign in to your SafeGuard account</CardDescription>
+            <CardDescription className="text-white/80">Sign in to your SafeGuard account</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -73,7 +73,7 @@ export default function SignInPage() {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-white/90">
+                <Label htmlFor="email" className="text-white font-medium">
                   Email
                 </Label>
                 <Input
@@ -89,7 +89,7 @@ export default function SignInPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-white/90">
+                <Label htmlFor="password" className="text-white font-medium">
                   Password
                 </Label>
                 <Input
@@ -110,7 +110,7 @@ export default function SignInPage() {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-white/70">
+              <p className="text-white/80">
                 Don't have an account?{" "}
                 <Link href="/signup" className="text-green-400 hover:text-green-300 font-medium">
                   Sign up

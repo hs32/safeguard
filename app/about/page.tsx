@@ -5,21 +5,38 @@ import ShaderBackground from "@/components/shader-background"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, Shield, Zap, Eye, Globe, Users } from "lucide-react"
+import { ExternalLink, Github, Shield, Zap, Eye, Globe, Users, Activity } from "lucide-react"
 
 export default function AboutPage() {
   return (
     <ShaderBackground>
       <Header />
-      <div className="min-h-screen pt-20 pb-16 px-6">
+      <div className="absolute top-24 right-6 z-30">
+        <Button
+          variant="outline"
+          size="sm"
+          asChild
+          className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+        >
+          <a href="https://safeguard.cronitorstatus.com/" target="_blank" rel="noopener noreferrer">
+            <Activity className="w-4 h-4 mr-2" />
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></div>
+            System Status
+          </a>
+        </Button>
+      </div>
+
+      <div className="relative z-20 min-h-screen pt-20 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-16">
             <Badge variant="outline" className="mb-4 bg-white/10 border-white/20 text-white">
               Research Project
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 text-balance">About SafeGuard</h1>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto text-pretty">
+            <h1 className="text-5xl md:text-6xl font-light text-white mb-6 text-balance tracking-tight">
+              <span className="font-medium italic">About</span> SafeGuard
+            </h1>
+            <p className="text-xs font-light text-white/70 max-w-3xl mx-auto text-pretty leading-relaxed">
               A cutting-edge research project focused on real-time website threat detection and privacy protection
               through advanced browser extension technology.
             </p>
