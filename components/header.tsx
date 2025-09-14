@@ -102,10 +102,19 @@ const Header = () => {
           </>
         )}
         <Link
-          href="#features"
+          href="/about"
           className="text-white/80 hover:text-white text-xs font-light px-3 py-2 rounded-full hover:bg-white/10 transition-all duration-200"
         >
-          Features
+          About
+        </Link>
+        <Link
+          href="https://safeguard.cronitorstatus.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white/80 hover:text-white text-xs font-light px-3 py-2 rounded-full hover:bg-white/10 transition-all duration-200 border border-green-500/30 bg-green-500/10 flex items-center space-x-1"
+        >
+          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span>Status</span>
         </Link>
       </nav>
 
@@ -208,7 +217,7 @@ const Header = () => {
       <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-white p-2" aria-label="Toggle menu">
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           {isMenuOpen ? (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12M6 12h12" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6h16M6 12h16" />
           ) : (
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           )}
@@ -261,11 +270,21 @@ const Header = () => {
               </>
             )}
             <Link
-              href="#features"
+              href="/about"
               className="text-white/80 hover:text-white text-sm font-light py-2 transition-all duration-200"
               onClick={() => setIsMenuOpen(false)}
             >
-              Features
+              About
+            </Link>
+            <Link
+              href="https://safeguard.cronitorstatus.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/80 hover:text-white text-sm font-light py-2 transition-all duration-200 flex items-center space-x-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span>System Status</span>
             </Link>
             {isAuthenticated ? (
               <div className="pt-4 border-t border-white/10 space-y-3">
