@@ -1,44 +1,40 @@
+# Raspberry Pi setup
+
 Pre-requisites:
 
 - Raspberry Pi
 - A Domain
-
-# Raspberry Pi setup
 
 **Boot Raspberry Pi OS** 
 
 - Connect a SD card with card reader at windows/ ubuntu pc
 - Update your pi
     
-    \`\`\`bash
+    ```bash
     sudo apt update && sudo apt upgrade -y
-    
-    \`\`\`
+    ```
     
 - Assign static IP to your pi
-- via Pi config (if router doesn`t support DHCP reservation):
+- via Pi config (if router doesn’t support DHCP reservation):
     
-    \`\`\`bash
+    ```bash
     sudo nano /etc/dhcpcd.conf
-    
-    \`\`\`
+    ```
     
 - Add:
     
-    \`\`\`
+    ```
     interface eth0     # or wlan0 if WiFi
     static ip_address=192.168.1.50/24
     static routers=192.168.1.1
     static domain_name_servers=1.1.1.1 8.8.8.8
-    
-    \`\`\`
+    ```
     
 - Save → reboot:
     
-    \`\`\`bash
+    ```bash
     sudo reboot
-    
-    \`\`\`
+    ```
     
 
 ---
@@ -47,40 +43,38 @@ Pre-requisites:
 
 1. Update system:
 
-\`\`\`bash
+```bash
 sudo apt update && sudo apt upgrade -y
+````
 
-\`\`\`
+2. Run Pi-hole installer:
 
-1. Run Pi-hole installer:
-
-\`\`\`bash
+```bash
 curl -sSL https://install.pi-hole.net | bash
+```
 
-\`\`\`
+3. During install:
 
-1. During install:
-    - Choose the network interface (`eth0` or `wlan0`).
-    - Use the static IP you set.
-    - Choose an upstream DNS (Cloudflare `1.1.1.1` recommended).
-    - Enable web admin.
-2. At the end, you`ll get:
-    - Admin URL: `http://192.168.1.50/admin`
-    - Auto-generated web password (copy this).
+   * Choose the network interface (`eth0` or `wlan0`).
+   * Use the static IP you set.
+   * Choose an upstream DNS (Cloudflare `1.1.1.1` recommended).
+   * Enable web admin.
+4. At the end, you’ll get:
+
+   * Admin URL: `http://192.168.1.50/admin`
+   * Auto-generated web password (copy this).
 
 ✅ Enable Pi-hole API
 
 1. Log into web interface → **Settings → API / Web Interface**.
 2. Enable API.
-3. Copy your **API Token** — you`ll use this later with Cloudflare Tunnel + Dokploy/Render.
+3. Copy your **API Token** — you’ll use this later with Cloudflare Tunnel + Dokploy/Render.
 
 ✅ At this point you have a
 
-**working Pi-hole running locally**
+**working Pi-hole running locally**.
 
-.
-
-From here, we`ll extend it with
+From here, we’ll extend it with
 
 **Cloudflare Tunnel**
 
@@ -92,55 +86,50 @@ so you can programmatically update allow/block lists from your VPS/Dokploy/Rende
 
 ---
 
-# Get the Pi-hole`s access at public internet (through Cloudflare tunnel)
+# Get the Pi-hole’s access at public internet (through Cloudflare tunnel)
 
 ### 🔹 Step 1:  Download the latest `cloudflared`
 
-Check your Pi`s architecture first:
+Check your Pi’s architecture first:
 
-\`\`\`bash
+```bash
 uname -m
+```
 
-\`\`\`
-
-- If it says `aarch64` → you need the **arm64** package.
-- If it says `armv7l` → you need the **armhf** package.
+* If it says `aarch64` → you need the **arm64** package.
+* If it says `armv7l` → you need the **armhf** package.
 
 Now download the correct `.deb`:
 
-\`\`\`bash
+```bash
 # For 64-bit Pi OS (arm64)
 wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64.deb
 
 # For 32-bit Pi OS (armhf)
 wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-armhf.deb
-
-\`\`\`
+```
 
 ---
 
 ### 🔹 Step 2: Install it
 
-\`\`\`bash
+```bash
 sudo dpkg -i cloudflared-linux-*.deb
-
-\`\`\`
+```
 
 If it complains about missing dependencies, run:
 
-\`\`\`bash
+```bash
 sudo apt-get -f install -y
-
-\`\`\`
+```
 
 ---
 
 ### 🔹 Step 3: Verify installation
 
-\`\`\`bash
+```bash
 cloudflared --version
-
-\`\`\`
+```
 
 You should see the installed version.
 
@@ -148,10 +137,9 @@ You should see the installed version.
 
 👉 After this, you can continue with:
 
-\`\`\`bash
+```bash
 cloudflared tunnel login
-
-\`\`\`
+```
 
 to authenticate with Cloudflare and create your tunnel.
 
@@ -159,18 +147,17 @@ to authenticate with Cloudflare and create your tunnel.
 
 ⚡ Bonus: If you just want a **quick test without a Cloudflare account/domain**, you can run:
 
-\`\`\`bash
+```bash
 cloudflared tunnel --url http://localhost:80
-
-\`\`\`
+```
 
 It will give you a temporary `https://something.trycloudflare.com` URL that exposes your Pi-hole dashboard securely to the internet.
 
-### 🔹 Step 4:  create a **persistent tunnel** that exposes Pi-hole`s admin/API over HTTPS
+### 🔹 Step 4:  create a **persistent tunnel** that exposes Pi-hole’s admin/API over HTTPS
 
-Now we`ll create a **persistent tunnel** that exposes Pi-hole`s admin/API over HTTPS (either on a subdomain you own, or via a temporary `trycloudflare.com` URL), configure ingress so *only* `/admin` (and the API) is exposed, and install the tunnel as a service so it auto-starts.
+Now we’ll create a **persistent tunnel** that exposes Pi-hole’s admin/API over HTTPS (either on a subdomain you own, or via a temporary `trycloudflare.com` URL), configure ingress so *only* `/admin` (and the API) is exposed, and install the tunnel as a service so it auto-starts.
 
-I`ll give two clear paths (pick one): **A. Permanent tunnel with your Cloudflare domain** (recommended) and **B. Quick temporary `trycloudflare.com` test**. Both assume Pi-hole`s web UI is reachable locally at `http://localhost/admin` (Pi-hole uses lighttpd on port 80 by default).
+I’ll give two clear paths (pick one): **A. Permanent tunnel with your Cloudflare domain** (recommended) and **B. Quick temporary `trycloudflare.com` test**. Both assume Pi-hole’s web UI is reachable locally at `http://localhost/admin` (Pi-hole uses lighttpd on port 80 by default).
 
 **A — Permanent tunnel (use your Cloudflare domain)**
 
@@ -178,25 +165,22 @@ Use this if you control a Cloudflare domain (example: `yourdomain.com`) and want
 
 1. **Create the named tunnel**
 
-\`\`\`bash
+```bash
 # run on the Pi (you already logged in)
 cloudflared tunnel create pihole-tunnel
-
-\`\`\`
+```
 
 This prints a tunnel ID and places credentials in `~/.cloudflared/<tunnel-id>.json`.
 
-1. **Create the cloudflared config**
-    
-    Create `~/.cloudflared/config.yml` with content (replace placeholders):
-    
+2. **Create the cloudflared config**
 
-\`\`\`bash
+   Create `~/.cloudflared/config.yml` with content (replace placeholders):
+
+```bash
 nano ~/.cloudflared/config.yml
+```
 
-\`\`\`
-
-\`\`\`yaml
+```yaml
 tunnel: TUNNEL_ID_FROM_CREATE
 credentials-file: /home/hasan/.cloudflared/TUNNEL_ID.json
 
@@ -210,63 +194,60 @@ ingress:
 
   # default rule for everything else
   - service: http_status:404
+```
 
-\`\`\`
+3. **Create DNS record in Cloudflare pointing the hostname to the tunnel**
 
-1. **Create DNS record in Cloudflare pointing the hostname to the tunnel**
-
-\`\`\`bash
+```bash
 cloudflared tunnel route dns pihole-tunnel pihole.yourdomain.com
-
-\`\`\`
+```
 
 This will create the necessary CNAME in your Cloudflare zone.
 
-1. **Install the tunnel as a system service (auto-start)**
+4. **Install the tunnel as a system service (auto-start)**
 
-\`\`\`bash
+```bash
 sudo cloudflared service install
 sudo systemctl enable cloudflared
 sudo systemctl start cloudflared
+```
 
-\`\`\`
+5. **Verify**
 
-1. **Verify**
-
-\`\`\`bash
+```bash
 sudo systemctl status cloudflared
 # then from anywhere:
 curl -k https://pihole.yourdomain.com/admin/api.php
-
-\`\`\`
+```
 
 You should get a JSON response from Pi-hole confirming the change.
 
 *Troubleshooting checklist*
 
-- `cloudflared` service status:
-    
-    \`\`\`bash
-    sudo systemctl status cloudflared
-    sudo journalctl -u cloudflared -f
-    
-    \`\`\`
-    
-- Confirm the credentials file exists: `ls ~/.cloudflared/*.json`
-- Confirm Pi-hole is reachable locally:
-    
-    \`\`\`bash
-    curl http://localhost/admin -I
-    
-    \`\`\`
-    
-- If using your domain, ensure the Cloudflare zone for `yourdomain.com` is present in the same account you logged into.
-- If you get 404 from the tunnel, check `~/.cloudflared/config.yml` ingress rules and order (first match wins).
-- If Pi-hole admin requires extra auth, use the API token for programmatic calls (UI login is separate).
+* `cloudflared` service status:
+
+  ```bash
+  sudo systemctl status cloudflared
+  sudo journalctl -u cloudflared -f
+  ```
+
+* Confirm the credentials file exists: `ls ~/.cloudflared/*.json`
+
+* Confirm Pi-hole is reachable locally:
+
+  ```bash
+  curl http://localhost/admin -I
+  ```
+
+* If using your domain, ensure the Cloudflare zone for `yourdomain.com` is present in the same account you logged into.
+
+* If you get 404 from the tunnel, check `~/.cloudflared/config.yml` ingress rules and order (first match wins).
+
+* If Pi-hole admin requires extra auth, use the API token for programmatic calls (UI login is separate).
 
 *Security note*
 
-- The above config exposes only the `/admin` and `/admin/api.php` endpoints via the tunnel. Keep your Pi-hole API token secret. If you want extra lock-down, put basic auth or IP allow rules in cloudflared ingress (or restrict with Cloudflare Access/Zero Trust).
+* The above config exposes only the `/admin` and `/admin/api.php` endpoints via the tunnel. Keep your Pi-hole API token secret. If you want extra lock-down, put basic auth or IP allow rules in cloudflared ingress (or restrict with Cloudflare Access/Zero Trust).
 
 ---
 
@@ -274,17 +255,16 @@ You should get a JSON response from Pi-hole confirming the change.
 
 Create the config file
 
-Create a config file in `/etc/cloudflared/` (that`s where the service expects it):
+Create a config file in `/etc/cloudflared/` (that’s where the service expects it):
 
-\`\`\`bash
+```bash
 sudo mkdir -p /etc/cloudflared
 sudo nano /etc/cloudflared/config.yml
-
-\`\`\`
+```
 
 Paste this (replace `pihole.paradox-bd.com` with your domain):
 
-\`\`\`yaml
+```yaml
 tunnel: e87bd965-4eba-41ea-82ee-d6ccf0efc936
 credentials-file: /home/hasan/.cloudflared/e87bd965-4eba-41ea-82ee-d6ccf0efc936.json
 
@@ -292,8 +272,7 @@ ingress:
   - hostname: pihole.paradox-bd.com
     service: http://localhost:80
   - service: http_status:404
-
-\`\`\`
+```
 
 Save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`).
 
@@ -301,47 +280,42 @@ Save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`).
 
 Make sure the system user `cloudflared` can read the credentials:
 
-\`\`\`bash
+```bash
 sudo chown -R cloudflared:cloudflared /etc/cloudflared
 sudo chown -R cloudflared:cloudflared /home/hasan/.cloudflared
-
-\`\`\`
+```
 
 **Install & enable the service**
 
 Now install the tunnel as a service:
 
-\`\`\`bash
+```bash
 sudo cloudflared service install
-
-\`\`\`
+```
 
 Then enable & start it:
 
-\`\`\`bash
+```bash
 sudo systemctl enable cloudflared
 sudo systemctl start cloudflared
-
-\`\`\`
+```
 
 Check status:
 
-\`\`\`bash
+```bash
 sudo systemctl status cloudflared
-
-\`\`\`
+```
 
 **Test externally**
 
 From any other device (even outside your LAN), try:
 
-\`\`\`bash
+```bash
 curl -I https://pihole.paradox-bd.com/admin
+```
 
-\`\`\`
-
-If everything worked, you`ll see `200 OK` or `302 Found` (Pi-hole web login).
+If everything worked, you’ll see `200 OK` or `302 Found` (Pi-hole web login).
 
 A sneak-peek of my dashboard (service might be unavailable if my pi is off)
 
-https://pihole.paradox-bd.com/admin/
+[https://pihole.paradox-bd.com/admin/](https://pihole.paradox-bd.com/admin/)
