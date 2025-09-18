@@ -12,10 +12,10 @@ import Header from "@/components/header"
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const banner = (
-    <Banner storageKey="4.0-release">
-      🎉 Nextra 4.0 is released.{" "}
+    <Banner storageKey="1.0-release">
+      View full documentation.{" "}
       <a
-        href="#"
+        href="https://hstu.notion.site/safeguard"
         style={{
           textDecoration: "underline",
           textUnderlinePosition: "from-font",
@@ -24,7 +24,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         Read more →
       </a>
     </Banner>
-  )
+  );
 
   return (
     <div>
