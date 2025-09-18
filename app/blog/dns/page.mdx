@@ -68,19 +68,6 @@ curl -sSL https://install.pi-hole.net | bash
     - Admin URL: `http://192.168.1.50/admin`
     - Auto-generated web password (copy this).
 
----
-
-# Configure your network to use Pi-hole
-
-Option A — Device-level:
-
-- Change DNS on your laptop/phone to `192.168.1.50`.
-
-Option B — Router-level:
-
-- In your router`s DNS settings, set **primary DNS = 192.168.1.50**.
-- This way, all devices on your LAN use Pi-hole automatically.
-
 ✅ Enable Pi-hole API
 
 1. Log into web interface → **Settings → API / Web Interface**.
@@ -210,8 +197,8 @@ nano ~/.cloudflared/config.yml
 \`\`\`
 
 \`\`\`yaml
-tunnel: <TUNNEL_ID_FROM_CREATE>
-credentials-file: /home/hasan/.cloudflared/<TUNNEL_ID>.json
+tunnel: TUNNEL_ID_FROM_CREATE
+credentials-file: /home/hasan/.cloudflared/TUNNEL_ID.json
 
 ingress:
   - hostname: pihole.yourdomain.com
@@ -250,37 +237,6 @@ sudo systemctl start cloudflared
 sudo systemctl status cloudflared
 # then from anywhere:
 curl -k https://pihole.yourdomain.com/admin/api.php
-
-\`\`\`
-
-You should get the HTML of the admin page (or a 401/403 if Pi-hole expects auth). For API calls use the Pi-hole API token when posting to `/admin/api.php`.
-
-**B — Quick temporary test (no domain required)**
-
-If you don`t have a domain or want to test quickly, run a one-off tunnel to get a `trycloudflare.com` URL.
-
-\`\`\`bash
-# quick ephemeral tunnel exposing local port 80
-cloudflared tunnel --url http://localhost:80
-
-\`\`\`
-
-Output will include a `https://<random>.trycloudflare.com` URL you can use immediately. This is good for testing but not recommended as long-term because the URL can change unless you create a named tunnel.
-
-To expose only /admin and not everything, do the named tunnel method with `config.yml` (Option A).
-
----
-
-*Example: How to call Pi-hole API through the tunnel*
-
-Assuming you set `PIHOLE_API_URL=https://pihole.yourdomain.com/admin/api.php` and you have the Pi-hole API token:
-
-Add to allowlist (curl example):
-
-\`\`\`bash
-curl -X POST \
-  -d "list=white&add=trusted.com&auth=YOUR_PIHOLE_API_TOKEN" \
-  "https://pihole.yourdomain.com/admin/api.php"
 
 \`\`\`
 
