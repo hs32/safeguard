@@ -1,14 +1,14 @@
-import { Footer, Layout, Navbar, ThemeSwitch } from "nextra-theme-blog";
-import { Banner, Head, Search } from "nextra/components";
-import { getPageMap } from "nextra/page-map";
-import "nextra-theme-blog/style.css";
+import { Footer, Layout, Navbar } from "nextra-theme-blog"
+import { Banner, Search } from "nextra/components"
+import { getPageMap } from "nextra/page-map"
+import "nextra-theme-blog/style.css"
 
 export const metadata = {
   title: "Blog Example",
-};
+}
 
-import { ReactNode } from "react";
-import Header from "@/components/header";
+import { type ReactNode, Suspense } from "react"
+import Header from "@/components/header"
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const banner = (
@@ -24,17 +24,19 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         Read more →
       </a>
     </Banner>
-  );
+  )
 
   return (
     <div>
       <Header />
       <div>
         <Layout banner={banner}>
-          <Navbar pageMap={await getPageMap()}>
-            <Search />
-            {/* <ThemeSwitch /> */}
-          </Navbar>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Navbar pageMap={await getPageMap()}>
+              <Search />
+              {/* <ThemeSwitch /> */}
+            </Navbar>
+          </Suspense>
 
           {children}
 
@@ -53,5 +55,5 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </Layout>
       </div>
     </div>
-  );
+  )
 }
