@@ -24,5 +24,5 @@ const nextConfig = {
     unoptimized: true,
   },
 };
-// export default withNextra(nextConfig)
-export default nextconfig
+export default withNextra(nextConfig)
+// export default nextconfig
