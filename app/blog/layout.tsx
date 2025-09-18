@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <Layout banner={banner}>
           <Navbar pageMap={await getPageMap()}>
             <Search />
-            <ThemeSwitch />
+            {/* <ThemeSwitch /> */}
           </Navbar>
 
           {children}
